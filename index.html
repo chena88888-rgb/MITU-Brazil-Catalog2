@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>巴西SKU产品图库</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #f8f9fa; color: #333; padding: 20px; }
+        header { max-width: 1200px; margin: 0 auto 20px; display: flex; flex-direction: column; gap: 15px; }
+        h1 { font-size: 24px; color: #1a73e8; }
+        .search-bar { width: 100%; padding: 12px 16px; font-size: 16px; border: 1px solid #ddd; border-radius: 8px; outline: none; box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
+        
+        /* 首页 SKU 网格 (200x200 风格) */
+        .sku-grid { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 20px; }
+        .sku-card { background: white; border-radius: 10px; overflow: hidden; box-shadow: 0 2px 8px rgba(0,0,0,0.08); cursor: pointer; transition: transform 0.2s; display: flex; flex-direction: column; align-items: center; padding-bottom: 10px; }
+        .sku-card:hover { transform: translateY(-4px); }
+        .sku-card img { width: 200px; height: 200px; object-fit: cover; background: #eee; border-radius: 6px; margin-top: 10px; }
+        .sku-info { padding: 10px 15px 0; font-size: 16px; font-weight: bold; text-align: center; color: #444; }
+
+        /* 详情页样式 */
+        .detail-container { max-width: 900px; margin: 0 auto; display: none; }
+        .back-btn { display: inline-block; padding: 10px 20px; background: #fff; border: 1px solid #ddd; border-radius: 6px; text-decoration: none; color: #333; margin-bottom: 20px; font-weight: bold; }
+        .detail-title { font-size: 22px; margin-bottom: 20px; color: #1a73e8; }
+        
+        /* 模块化排版顺序 */
+        .section-title { font-size: 16px; font-weight: bold; color: #555; margin: 20px 0 10px; border-left: 4px solid #1a73e8; padding-left: 8px; }
+        
+        /* 下载链接区 (RAR / ZIP / PDF) */
+        .file-links { display: flex; flex-direction: column; gap: 8px; margin-bottom: 15px; }
+        .file-btn { display: block; padding: 12px 18px; background: #e8f0fe; color: #1a73e8; text-decoration: none; border-radius: 6px; font-weight: bold; font-size: 15px; text-align: center; }
+        .file-btn:hover { background: #d2e3fc; }
+        .pdf-btn { background: #fce8e6; color: #c5221f; }
+        .pdf-btn:hover { background: #fad2cf; }
+
+        /* 图片与视频展示区 */
+        .media-list { display: flex; flex-direction: column; gap: 15px; }
+        .media-list img { width: 100%; border-radius: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.1); background: #000; cursor: zoom-in; transition: opacity 0.2s; }
+        .media-list img:hover { opacity: 0.95; }
+        .media-list video { width: 100%; border-radius: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.1); background: #000; }
+
+        /* 全屏灯箱预览大图 */
+        #lightbox { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.85); display: none; justify-content: center; align-items: center; z-index: 999; cursor: zoom-out; }
+        #lightbox img { max-width: 95%; max-height: 95%; border-radius: 4px; box-shadow: 0 4px 12px rgba(0,0,0,0.5); }
+
+        .loading { text-align: center; padding: 50px; font-size: 18px; color: #666; }
+    </style>
+</head>
+<body>
+
+    <header id="header-section">
+        <h1>📦 巴西 SKU 产品素材目录</h1>
+        <input type="text" id="searchInput" class="search-bar" placeholder="🔍 输入 SKU 快速搜索..." oninput="filterSKUs()">
+    </header>
+
+    <!-- 主页：SKU 列表 -->
+    <main id="home-view">
+        <div id="loading" class="loading">正在自动扫描云端 SKU 目录...</div>
+        <div id="skuGrid" class="sku-grid"></div>
+    </main>
+
+    <!-- 详情页 -->
+    <div id="detail-view" class="detail-container">
+        <a href="#" class="back-btn" onclick="goHome(event)">← 返回首页</a>
+        <h2 id="detailTitle" class="detail-title"></h2>
+        
+        <!-- 1. 压缩文件下载区域 -->
+        <div id="archiveSection" style="display:none;">
+            <div class="section-title">📦 压缩包资料下载</div>
+            <div id="archiveLinks" class="file-links"></div>
+        </div>
+
+        <!-- 2. PDF 资料下载区域 -->
+        <div id="pdfSection" style="display:none;">
+            <div class="section-title">📄 产品规格书 (Specifications PDF)</div>
+            <div id="pdfLinks" class="file-links"></div>
+        </div>
+
+        <!-- 3. 图片瀑布流区域 -->
+        <div id="imageSection" style="display:none;">
+            <div class="section-title">🖼️ 产品高清图集</div>
+            <div id="imageList" class="media-list"></div>
+        </div>
+
+        <!-- 4. 视频播放区域 -->
+        <div id="videoSection" style="display:none;">
+            <div class="section-title">🎬 产品视频展示</div>
+            <div id="videoList" class="media-list"></div>
+        </div>
+    </div>
+
+    <!-- 全屏大图预览弹窗 -->
+    <div id="lightbox" onclick="closeLightbox()">
+        <img id="lightboxImg" src="">
+    </div>
+
+    <script>
+        // 【请修改这里】填入你的 GitHub 用户名、仓库名
+        const GITHUB_USER = "chena88888-rgb";
+        const REPO_NAME = "MITU-Brazil-Catalog";
+
+        let allSKUs = [];
+
+        async function init() {
+            const loading = document.getElementById('loading');
+            try {
+                const url = `https://api.github.com/repos/${GITHUB_USER}/${REPO_NAME}/contents`;
+                const response = await fetch(url);
+                const data = await response.json();
+
+                allSKUs = data
+.filter(item => item.type === 'dir')
+.map(item => item.name)
+.sort((a,b)=>Number(a)-Number(b));
+                loading.style.display = 'none';
+                renderSKUList(allSKUs);
+                checkUrlHash();
+            } catch (error) {
+                loading.innerText = "自动扫描失败，请检查网络或 GitHub 配置信息。";
+                console.error(error);
+            }
+        }
+
+        function renderSKUList(skus) {
+            const grid = document.getElementById('skuGrid');
+            grid.innerHTML = '';
+            
+            if (skus.length === 0) {
+                grid.innerHTML = '<div style="grid-column:1/-1; text-align:center; color:#999;">没有找到相关 SKU</div>';
+                return;
+            }
+
+            skus.forEach(sku => {
+                const card = document.createElement('div');
+                card.className = 'sku-card';
+                // 自动寻找名为 1.jpg（或 1.png 等）的图片作为 200*200 封面
+                // ===============================
+// 自动寻找SKU封面
+// 顺序:
+// 1.jpg
+// 1.png
+// cover.jpg
+// cover.png
+// ===============================
+
+
+async function findCover(sku){
+
+
+    const covers = [
+
+        "1.jpg",
+
+        "1.png",
+
+        "cover.jpg",
+
+        "cover.png"
+
+    ];
+
+
+
+    for(let file of covers){
+
+
+        let url = `${sku}/${file}`;
+
+
+
+        try{
+
+
+            let response = await fetch(url, {
+
+                method:"HEAD"
+
+            });
+
+
+
+            if(response.ok){
+
+
+                return url;
+
+
+            }
+
+
+
+        }catch(error){
+
+
+            console.log(
+                "检查失败:",
+                url
+            );
+
+
+        }
+
+
+    }
+
+
+
+    // 如果全部不存在
+
+    return "default-cover.jpg";
+
+
+}
+
+
+
+
+// ===============================
+// 显示SKU
+// ===============================
+
+async function showSKU(sku){
+
+
+
+    // 自动找封面
+
+    let coverUrl = await findCover(sku);
+
+
+
+    document.getElementById("cover")
+    .src = coverUrl;
+
+
+
+    // 显示SKU编号
+
+    document.getElementById("skuName")
+    .innerHTML = sku;
+
+
+
+}
+
+                
+                card.innerHTML = `
+                    <img src="${coverUrl}" onerror="this.src=${sku}/cover.jpg'" alt="${sku}">
+                    <div class="sku-info">SKU: ${sku}</div>
+                `;
+                card.onclick = () => loadSKUDetail(sku);
+                grid.appendChild(card);
+            });
+        }
+
+        async function loadSKUDetail(sku) {
+            document.getElementById('home-view').style.display = 'none';
+            document.getElementById('header-section').style.display = 'none';
+            const detailView = document.getElementById('detail-view');
+            detailView.style.display = 'block';
+            
+            document.getElementById('detailTitle').innerText = `SKU: ${sku}`;
+            window.location.hash = `sku=${sku}`;
+
+            // 重置并显示加载状态
+            document.getElementById('archiveSection').style.display = 'none';
+            document.getElementById('pdfSection').style.display = 'none';
+            document.getElementById('imageSection').style.display = 'none';
+            document.getElementById('videoSection').style.display = 'none';
+
+            try {
+                const url = `https://api.github.com/repos/${GITHUB_USER}/${REPO_NAME}/contents/${sku}`;
+                const response = await fetch(url);
+                const files = await response.json();
+
+                let archivesHtml = '';
+                let pdfsHtml = '';
+                let imagesHtml = '';
+                let videosHtml = '';
+
+                files.forEach(file => {
+                    const fileUrl = file.download_url;
+                    const fileName = file.name;
+                    const ext = fileName.split('.').pop().toLowerCase();
+
+                    // 分类归档
+                    if (['zip', 'rar', '7z'].includes(ext)) {
+                        archivesHtml += `<a href="${fileUrl}" class="file-btn" target="_blank">📥 下载 ${fileName}</a>`;
+                    } else if (['pdf'].includes(ext)) {
+                        pdfsHtml += `<a href="${fileUrl}" class="file-btn pdf-btn" target="_blank">📄 下载 ${fileName}</a>`;
+                    } else if (['jpg', 'jpeg', 'png', 'webp', 'gif'].includes(ext)) {
+                        // 点击图片触发无损放大弹窗
+                        imagesHtml += `<img src="${fileUrl}" loading="lazy" alt="${fileName}" onclick="openLightbox('${fileUrl}')">`;
+                    } else if (['mp4', 'webm', 'mov'].includes(ext)) {
+                        videosHtml += `<video src="${fileUrl}" controls playsinline></video>`;
+                    }
+                });
+
+                // 按你的要求精准控制显示顺序与上下级结构
+                if (archivesHtml) {
+                    document.getElementById('archiveLinks').innerHTML = archivesHtml;
+                    document.getElementById('archiveSection').style.display = 'block';
+                }
+                if (pdfsHtml) {
+                    document.getElementById('pdfLinks').innerHTML = pdfsHtml;
+                    document.getElementById('pdfSection').style.display = 'block';
+                }
+                if (imagesHtml) {
+                    document.getElementById('imageList').innerHTML = imagesHtml;
+                    document.getElementById('imageSection').style.display = 'block';
+                }
+                if (videosHtml) {
+                    document.getElementById('videoList').innerHTML = videosHtml;
+                    document.getElementById('videoSection').style.display = 'block';
+                }
+
+            } catch (error) {
+                console.error(error);
+            }
+        }
+
+        // 全屏大图控制逻辑
+        function openLightbox(url) {
+            const lightbox = document.getElementById('lightbox');
+            const img = document.getElementById('lightboxImg');
+            img.src = url;
+            lightbox.style.display = 'flex';
+        }
+
+        function closeLightbox() {
+            document.getElementById('lightbox').style.display = 'none';
+        }
+
+        function filterSKUs() {
+            const keyword = document.getElementById('searchInput').value.trim().toLowerCase();
+            const filtered = allSKUs.filter(sku => sku.toLowerCase().includes(keyword));
+            renderSKUList(filtered);
+        }
+
+        function goHome(e) {
+            e.preventDefault();
+            window.location.hash = '';
+            document.getElementById('detail-view').style.display = 'none';
+            document.getElementById('home-view').style.display = 'block';
+            document.getElementById('header-section').style.display = 'flex';
+        }
+
+        function checkUrlHash() {
+            const hash = window.location.hash;
+            if (hash.startsWith('#sku=')) {
+                const sku = hash.replace('#sku=', '');
+                if (sku) loadSKUDetail(sku);
+            }
+        }
+
+        init();
+    </script>
+</body>
+</html>
