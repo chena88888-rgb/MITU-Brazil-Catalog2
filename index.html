@@ -565,9 +565,16 @@ await response.json();
 allSKUs =
 data
 
-.filter(
-item=>item.type==="dir"
+allSKUs =
+data
+.filter(item =>
+    item.type==="dir" &&
+    /^\d+$/.test(item.name)
 )
+.map(item=>item.name)
+.sort(
+(a,b)=>Number(a)-Number(b)
+);
 
 .map(
 item=>item.name
