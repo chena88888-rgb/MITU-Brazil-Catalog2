@@ -97,7 +97,8 @@
     <script>
         // 【请修改这里】填入你的 GitHub 用户名、仓库名
         const GITHUB_USER = "chena88888-rgb";
-        const REPO_NAME = "MITU-Brazil-Catalog";
+        const REPO_NAME = "MITU-Brazil-Catalog2
+";
 
         let allSKUs = [];
 
@@ -121,7 +122,7 @@
             }
         }
 
-        function renderSKUList(skus) {
+        async function renderSKUList(skus){
             const grid = document.getElementById('skuGrid');
             grid.innerHTML = '';
             
@@ -130,7 +131,7 @@
                 return;
             }
 
-            skus.forEach(sku => {
+            for(const sku of skus){const coverUrl=await findCover(sku); 
                 const card = document.createElement('div');
                 card.className = 'sku-card';
                 // 自动寻找名为 1.jpg（或 1.png 等）的图片作为 200*200 封面
@@ -142,51 +143,6 @@
 // cover.jpg
 // cover.png
 // ===============================
-
-
-async function findCover(sku){
-
-
-    const covers = [
-
-        "1.jpg",
-
-        "1.png",
-
-        "cover.jpg",
-
-        "cover.png"
-
-    ];
-
-
-
-    for(let file of covers){
-
-
-        let url = `${sku}/${file}`;
-
-
-
-        try{
-
-
-            let response = await fetch(url, {
-
-                method:"HEAD"
-
-            });
-
-
-
-            if(response.ok){
-
-
-                return url;
-
-
-            }
-
 
 
         }catch(error){
@@ -245,12 +201,12 @@ async function showSKU(sku){
 
                 
                 card.innerHTML = `
-                    <img src="${coverUrl}" onerror="this.src=${sku}/cover.jpg'" alt="${sku}">
+                    <img src="${coverUrl}" onerror="this.src='default-cover.png'"> alt="${sku}">
                     <div class="sku-info">SKU: ${sku}</div>
                 `;
                 card.onclick = () => loadSKUDetail(sku);
                 grid.appendChild(card);
-            });
+             }
         }
 
         async function loadSKUDetail(sku) {
@@ -277,7 +233,22 @@ async function showSKU(sku){
                 let pdfsHtml = '';
                 let imagesHtml = '';
                 let videosHtml = '';
+    
+                files.sort((a,b)=>
 
+a.name.localeCompare(
+
+b.name,
+
+undefined,
+
+{
+
+numeric:true
+
+}
+
+)); 
                 files.forEach(file => {
                     const fileUrl = file.download_url;
                     const fileName = file.name;
@@ -294,7 +265,7 @@ async function showSKU(sku){
                     } else if (['mp4', 'webm', 'mov'].includes(ext)) {
                         videosHtml += `<video src="${fileUrl}" controls playsinline></video>`;
                     }
-                });
+                }
 
                 // 按你的要求精准控制显示顺序与上下级结构
                 if (archivesHtml) {
