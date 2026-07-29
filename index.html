@@ -565,7 +565,18 @@ await response.json();
 allSKUs =
 data
 
-.filter(item=>item.type==="dir")
+.filter(
+item=>item.type==="dir"
+)
+
+.map(
+item=>item.name
+)
+
+.sort(
+(a,b)=>Number(a)-Number(b)
+);
+
 
 
 loading.style.display="none";
