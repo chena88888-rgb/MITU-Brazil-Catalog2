@@ -887,11 +887,14 @@ try{
 
 
 
-const url =
+const response = await fetch("catalog.json");
 
-`https://api.github.com/repos/${GITHUB_USER}/${REPO_NAME}/contents`;
+const catalog = await response.json();
 
-
+allSKUs = Object.keys(catalog)
+.sort(
+(a,b)=>Number(a)-Number(b)
+);
 
 
 
@@ -1701,7 +1704,7 @@ hash.replace("#sku=","");
 if(sku){
 
 
-
+  
 loadSKUDetail(sku);
 
 
@@ -1740,4 +1743,4 @@ init();
 </body>
 
 
-</html>
+</html>  
