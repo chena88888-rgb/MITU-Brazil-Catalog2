@@ -1,39 +1,292 @@
 {
-  "100062": {
-
-    "sku": "100062",
-
+  "100056": {
+    "sku": "100056",
     "files": [
-
       {
-        "name": "产品图片.jpg",
+        "name": "1.jpg",
         "type": "image",
-        "url": "100062/产品图片.jpg"
+        "url": "100056/1.jpg"
       },
-
-
       {
-        "name": "说明书.pdf",
-        "type": "pdf",
-        "url": "100062/说明书.pdf"
+        "name": "10.png",
+        "type": "image",
+        "url": "100056/10.png"
       },
-
-
       {
-        "name": "测试视频.mp4",
+        "name": "2.jpg",
+        "type": "image",
+        "url": "100056/2.jpg"
+      },
+      {
+        "name": "3.jpg",
+        "type": "image",
+        "url": "100056/3.jpg"
+      },
+      {
+        "name": "4.jpg",
+        "type": "image",
+        "url": "100056/4.jpg"
+      },
+      {
+        "name": "5.png",
+        "type": "image",
+        "url": "100056/5.png"
+      },
+      {
+        "name": "6.png",
+        "type": "image",
+        "url": "100056/6.png"
+      },
+      {
+        "name": "7.png",
+        "type": "image",
+        "url": "100056/7.png"
+      },
+      {
+        "name": "8.png",
+        "type": "image",
+        "url": "100056/8.png"
+      },
+      {
+        "name": "9.png",
+        "type": "image",
+        "url": "100056/9.png"
+      },
+      {
+        "name": "video1.mp4",
         "type": "video",
-        "url": "100062/测试视频.mp4"
-      },
-
-
-      {
-        "name": "资料.zip",
-        "type": "archive",
-        "url": "100062/资料.zip"
+        "url": "100056/video1.mp4"
       }
-
     ]
-
+  },
+  "100057": {
+    "sku": "100057",
+    "files": [
+      {
+        "name": "1.jpg",
+        "type": "image",
+        "url": "100057/1.jpg"
+      },
+      {
+        "name": "10.jpg",
+        "type": "image",
+        "url": "100057/10.jpg"
+      },
+      {
+        "name": "11.jpg",
+        "type": "image",
+        "url": "100057/11.jpg"
+      },
+      {
+        "name": "12.jpg",
+        "type": "image",
+        "url": "100057/12.jpg"
+      },
+      {
+        "name": "13.jpg",
+        "type": "image",
+        "url": "100057/13.jpg"
+      },
+      {
+        "name": "14.jpg",
+        "type": "image",
+        "url": "100057/14.jpg"
+      },
+      {
+        "name": "2.jpg",
+        "type": "image",
+        "url": "100057/2.jpg"
+      },
+      {
+        "name": "3.png",
+        "type": "image",
+        "url": "100057/3.png"
+      },
+      {
+        "name": "4.jpg",
+        "type": "image",
+        "url": "100057/4.jpg"
+      },
+      {
+        "name": "5.jpg",
+        "type": "image",
+        "url": "100057/5.jpg"
+      },
+      {
+        "name": "6.jpg",
+        "type": "image",
+        "url": "100057/6.jpg"
+      },
+      {
+        "name": "7.jpg",
+        "type": "image",
+        "url": "100057/7.jpg"
+      },
+      {
+        "name": "8.jpg",
+        "type": "image",
+        "url": "100057/8.jpg"
+      },
+      {
+        "name": "9.jpg",
+        "type": "image",
+        "url": "100057/9.jpg"
+      }
+    ]
+  },
+  "100062": {
+    "sku": "100062",
+    "files": [
+      {
+        "name": "1.jpg",
+        "type": "image",
+        "url": "100062/1.jpg"
+      },
+      {
+        "name": "10.png",
+        "type": "image",
+        "url": "100062/10.png"
+      },
+      {
+        "name": "100062产品资料.rar",
+        "type": "archive",
+        "url": "100062/100062产品资料.rar"
+      },
+      {
+        "name": "11.png",
+        "type": "image",
+        "url": "100062/11.png"
+      },
+      {
+        "name": "12.png",
+        "type": "image",
+        "url": "100062/12.png"
+      },
+      {
+        "name": "13.png",
+        "type": "image",
+        "url": "100062/13.png"
+      },
+      {
+        "name": "14.png",
+        "type": "image",
+        "url": "100062/14.png"
+      },
+      {
+        "name": "15.png",
+        "type": "image",
+        "url": "100062/15.png"
+      },
+      {
+        "name": "16.png",
+        "type": "image",
+        "url": "100062/16.png"
+      },
+      {
+        "name": "17.jpg",
+        "type": "image",
+        "url": "100062/17.jpg"
+      },
+      {
+        "name": "18.png",
+        "type": "image",
+        "url": "100062/18.png"
+      },
+      {
+        "name": "19.png",
+        "type": "image",
+        "url": "100062/19.png"
+      },
+      {
+        "name": "2.jpg",
+        "type": "image",
+        "url": "100062/2.jpg"
+      },
+      {
+        "name": "20.png",
+        "type": "image",
+        "url": "100062/20.png"
+      },
+      {
+        "name": "21.png",
+        "type": "image",
+        "url": "100062/21.png"
+      },
+      {
+        "name": "24.png",
+        "type": "image",
+        "url": "100062/24.png"
+      },
+      {
+        "name": "25.png",
+        "type": "image",
+        "url": "100062/25.png"
+      },
+      {
+        "name": "26.png",
+        "type": "image",
+        "url": "100062/26.png"
+      },
+      {
+        "name": "27.png",
+        "type": "image",
+        "url": "100062/27.png"
+      },
+      {
+        "name": "28.png",
+        "type": "image",
+        "url": "100062/28.png"
+      },
+      {
+        "name": "3.jpg",
+        "type": "image",
+        "url": "100062/3.jpg"
+      },
+      {
+        "name": "4.jpg",
+        "type": "image",
+        "url": "100062/4.jpg"
+      },
+      {
+        "name": "5.jpg",
+        "type": "image",
+        "url": "100062/5.jpg"
+      },
+      {
+        "name": "6.jpg",
+        "type": "image",
+        "url": "100062/6.jpg"
+      },
+      {
+        "name": "7.jpg",
+        "type": "image",
+        "url": "100062/7.jpg"
+      },
+      {
+        "name": "8.png",
+        "type": "image",
+        "url": "100062/8.png"
+      },
+      {
+        "name": "9.png",
+        "type": "image",
+        "url": "100062/9.png"
+      },
+      {
+        "name": "product-spec.html",
+        "type": "spec",
+        "url": "100062/product-spec.html"
+      },
+      {
+        "name": "video1.mp4",
+        "type": "video",
+        "url": "100062/video1.mp4"
+      },
+      {
+        "name": "工作簿1.pdf",
+        "type": "pdf",
+        "url": "100062/工作簿1.pdf"
+      }
+    ]
   }
-
 }
