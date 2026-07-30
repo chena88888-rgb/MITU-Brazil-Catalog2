@@ -1,15 +1,20 @@
 // build.js
+//
 // 自动扫描SKU文件夹
-// 生成 catalog.json
+// 自动生成 catalog.json
+//
 
 
 const fs = require("fs");
+
 const path = require("path");
 
 
-// 当前项目目录
+
+// 当前仓库目录
 
 const ROOT = __dirname;
+
 
 
 // 输出文件
@@ -17,21 +22,41 @@ const ROOT = __dirname;
 const OUTPUT = "catalog.json";
 
 
-// 判断文件类型
+
+
+
+/*
+===============================
+判断文件类型
+===============================
+*/
+
 
 function getType(file){
 
 
-    let ext = path.extname(file)
-        .toLowerCase();
+    const ext =
+
+    path.extname(file)
+
+    .toLowerCase();
 
 
+
+    // 图片
 
     if(
-        ext === ".jpg" ||
-        ext === ".jpeg" ||
-        ext === ".png" ||
-        ext === ".webp"
+
+        [
+            ".jpg",
+            ".jpeg",
+            ".png",
+            ".webp",
+            ".gif"
+        ]
+
+        .includes(ext)
+
     ){
 
         return "image";
@@ -40,7 +65,37 @@ function getType(file){
 
 
 
-    if(ext === ".pdf"){
+
+
+    // 产品参数HTML
+
+    if(
+
+        ext === ".html"
+
+        &&
+
+        file.toLowerCase()
+        ===
+        "product-spec.html"
+
+    ){
+
+        return "spec";
+
+    }
+
+
+
+
+
+    // PDF备用
+
+    if(
+
+        ext === ".pdf"
+
+    ){
 
         return "pdf";
 
@@ -48,10 +103,21 @@ function getType(file){
 
 
 
+
+
+    // 视频
+
     if(
-        ext === ".mp4" ||
-        ext === ".mov" ||
-        ext === ".avi"
+
+        [
+            ".mp4",
+            ".mov",
+            ".webm",
+            ".avi"
+        ]
+
+        .includes(ext)
+
     ){
 
         return "video";
@@ -60,15 +126,30 @@ function getType(file){
 
 
 
+
+
+
+
+    // 压缩包
+
     if(
-        ext === ".zip" ||
-        ext === ".rar" ||
-        ext === ".7z"
+
+        [
+            ".zip",
+            ".rar",
+            ".7z"
+        ]
+
+        .includes(ext)
+
     ){
 
         return "archive";
 
     }
+
+
+
 
 
     return "file";
@@ -79,70 +160,140 @@ function getType(file){
 
 
 
-// 扫描SKU
+
+
+
+/*
+===============================
+生成catalog
+===============================
+*/
+
 
 function buildCatalog(){
 
 
-    let catalog = {};
+
+    const catalog = {};
 
 
 
-    let folders = fs.readdirSync(ROOT);
+    const folders =
+
+    fs.readdirSync(ROOT);
+
+
+
 
 
 
     folders.forEach(folder=>{
 
 
-        let fullPath =
-            path.join(ROOT,folder);
 
 
 
-        // 只处理数字SKU文件夹
+        const folderPath =
+
+        path.join(ROOT,folder);
+
+
+
+
+
+
+        /*
+        只处理数字SKU文件夹
+
+        例如：
+
+        100056
+        100057
+
+        */
 
         if(
-            fs.statSync(fullPath).isDirectory()
+
+            fs.statSync(folderPath)
+            .isDirectory()
+
             &&
+
             /^\d+$/.test(folder)
+
         ){
 
 
 
-            let files =
-                fs.readdirSync(fullPath);
+
+
+            const files =
+
+            fs.readdirSync(folderPath);
+
+
+
+
 
 
 
             catalog[folder]={
 
+
                 sku:folder,
+
 
                 files:[]
 
+
             };
+
+
+
+
+
+
 
 
 
             files.forEach(file=>{
 
 
+
+
+
                 catalog[folder]
+
                 .files
+
                 .push({
+
+
 
                     name:file,
 
+
+
                     type:getType(file),
 
+
+
                     url:
+
                     `${folder}/${file}`
+
+
 
                 });
 
 
+
+
+
             });
+
+
+
 
 
 
@@ -150,32 +301,58 @@ function buildCatalog(){
 
 
 
+
+
+
     });
+
+
+
+
+
 
 
 
     fs.writeFileSync(
 
+
         OUTPUT,
 
+
         JSON.stringify(
+
             catalog,
+
             null,
+
             2
+
         ),
+
 
         "utf-8"
 
+
     );
+
+
 
 
 
     console.log(
+
         "catalog.json生成完成"
+
     );
 
 
+
+
+
 }
+
+
+
 
 
 

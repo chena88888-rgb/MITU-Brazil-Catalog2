@@ -2,12 +2,17 @@
 <html lang="zh-CN">
 
 <head>
+
 <meta charset="UTF-8">
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>巴西SKU产品图库</title>
+
+<title>巴西SKU产品素材目录</title>
+
 
 <style>
+
 
 *{
     box-sizing:border-box;
@@ -15,54 +20,82 @@
     padding:0;
 }
 
+
+
 body{
+
     font-family:
     -apple-system,
     BlinkMacSystemFont,
     "Segoe UI",
     Roboto,
+    "Microsoft YaHei",
     sans-serif;
 
+
     background:#f8f9fa;
+
     color:#333;
+
     padding:20px;
+
 }
+
+
+
+/* =====================
+首页顶部
+===================== */
 
 
 header{
+
     max-width:1200px;
-    margin:0 auto 20px;
+
+    margin:auto;
+
     display:flex;
+
     flex-direction:column;
+
     gap:15px;
+
 }
+
 
 
 h1{
+
     font-size:24px;
+
     color:#1a73e8;
+
 }
+
 
 
 .search-bar{
 
     width:100%;
+
     padding:12px 16px;
 
-    font-size:16px;
-
     border:
+
     1px solid #ddd;
 
     border-radius:8px;
 
-    outline:none;
+    font-size:16px;
 
 }
 
 
 
-/* SKU首页 */
+/* =====================
+SKU首页
+===================== */
+
 
 .sku-grid{
 
@@ -70,10 +103,14 @@ h1{
 
     margin:auto;
 
+
     display:grid;
 
+
     grid-template-columns:
+
     repeat(auto-fill,minmax(200px,1fr));
+
 
     gap:20px;
 
@@ -81,53 +118,76 @@ h1{
 
 
 
+
 .sku-card{
+
 
     background:white;
 
+
     border-radius:10px;
+
 
     overflow:hidden;
 
+
     box-shadow:
+
     0 2px 8px rgba(0,0,0,.08);
+
 
     cursor:pointer;
 
+
     transition:.2s;
+
 
     display:flex;
 
+
     flex-direction:column;
+
 
     align-items:center;
 
+
     padding-bottom:10px;
 
+
 }
+
 
 
 .sku-card:hover{
 
+
     transform:translateY(-4px);
 
+
 }
+
 
 
 
 .sku-card img{
 
+
     width:200px;
 
     height:200px;
 
-    object-fit:cover;
+
+    object-fit:contain;
+
 
     background:#eee;
 
+
     border-radius:6px;
 
+
     margin-top:10px;
+
 
 }
 
@@ -135,28 +195,38 @@ h1{
 
 .sku-info{
 
-    padding:10px 15px 0;
+
+    padding-top:10px;
+
 
     font-size:16px;
 
+
     font-weight:bold;
 
-    text-align:center;
 
 }
 
 
 
 
-/* 详情页 */
+
+/* =====================
+详情页面
+===================== */
+
 
 .detail-container{
 
-    max-width:900px;
+
+    max-width:1000px;
+
 
     margin:auto;
 
+
     display:none;
+
 
 }
 
@@ -164,21 +234,30 @@ h1{
 
 .back-btn{
 
+
     display:inline-block;
+
 
     padding:10px 20px;
 
+
     background:white;
+
 
     border:1px solid #ddd;
 
+
     border-radius:6px;
+
 
     text-decoration:none;
 
+
     color:#333;
 
+
     margin-bottom:20px;
+
 
 }
 
@@ -186,44 +265,67 @@ h1{
 
 .detail-title{
 
-    font-size:22px;
 
-    margin-bottom:20px;
+    font-size:24px;
+
 
     color:#1a73e8;
 
+
+    margin-bottom:20px;
+
+
 }
+
 
 
 
 .section-title{
 
-    font-size:16px;
+
+    font-size:17px;
+
 
     font-weight:bold;
 
+
     color:#555;
 
+
     margin:
-    20px 0 10px;
+
+    25px 0 12px;
+
 
     border-left:
+
     4px solid #1a73e8;
 
+
     padding-left:8px;
+
 
 }
 
 
 
 
+/* =====================
+压缩包下载
+===================== */
+
+
 .file-links{
+
 
     display:flex;
 
+
     flex-direction:column;
 
-    gap:8px;
+
+    gap:10px;
+
 
 }
 
@@ -231,120 +333,232 @@ h1{
 
 .file-btn{
 
+
     display:block;
 
-    padding:12px 18px;
+
+    padding:12px;
+
 
     background:#e8f0fe;
 
+
     color:#1a73e8;
 
-    text-decoration:none;
 
     border-radius:6px;
 
+
+    text-decoration:none;
+
+
     font-weight:bold;
+
 
     text-align:center;
 
-}
-
-
-
-.pdf-btn{
-
-    background:#fce8e6;
-
-    color:#c5221f;
 
 }
 
 
 
-.media-list{
+.archive-btn{
 
-    display:flex;
+    background:#e6f4ea;
 
-    flex-direction:column;
-
-    gap:15px;
+    color:#137333;
 
 }
 
 
 
-.media-list img,
-.media-list video{
+
+
+/* =====================
+产品参数HTML展示区域
+===================== */
+
+
+.spec-frame{
+
 
     width:100%;
 
+
+    min-height:500px;
+
+
+    border:
+
+    1px solid #ddd;
+
+
     border-radius:8px;
 
-    background:#000;
+
+    background:white;
+
 
 }
 
 
 
-.media-list img{
+
+
+/* =====================
+图片/视频网格
+===================== */
+
+
+.media-grid{
+
+
+    display:grid;
+
+
+    grid-template-columns:
+
+
+    repeat(auto-fill,200px);
+
+
+    gap:20px;
+
+
+}
+
+
+
+
+.media-grid img,
+
+
+.media-grid video{
+
+
+    width:200px;
+
+
+    height:200px;
+
+
+    object-fit:contain;
+
+
+    background:white;
+
+
+    border-radius:8px;
+
 
     cursor:zoom-in;
 
+
 }
 
+
+
+
+.media-grid video{
+
+
+    cursor:pointer;
+
+
+    background:#000;
+
+
+}
+
+
+
+
+
+/* =====================
+图片放大
+===================== */
 
 
 #lightbox{
 
+
     position:fixed;
 
+
     top:0;
+
+
     left:0;
 
+
     width:100%;
+
+
     height:100%;
 
+
     background:
+
     rgba(0,0,0,.85);
+
 
     display:none;
 
+
     justify-content:center;
+
 
     align-items:center;
 
+
     z-index:999;
 
+
 }
+
 
 
 
 #lightbox img{
 
+
     max-width:95%;
+
 
     max-height:95%;
 
+
 }
+
+
 
 
 
 .loading{
 
+
     text-align:center;
+
 
     padding:50px;
 
-    font-size:18px;
 
     color:#666;
+
+
+    font-size:18px;
+
 
 }
 
 
+
 </style>
 
+
 </head>
+
+
 
 
 
@@ -354,16 +568,27 @@ h1{
 
 <header id="header-section">
 
+
 <h1>
+
 📦 巴西 SKU 产品素材目录
+
 </h1>
 
 
+
 <input
+
 id="searchInput"
+
 class="search-bar"
+
 placeholder="🔍 输入 SKU 快速搜索..."
-oninput="filterSKUs()">
+
+oninput="filterSKUs()"
+
+/>
+
 
 
 </header>
@@ -371,14 +596,18 @@ oninput="filterSKUs()">
 
 
 
+
 <!-- 首页 -->
+
 
 <main id="home-view">
 
 
 <div id="loading" class="loading">
 
-正在自动扫描SKU目录...
+
+正在读取产品目录...
+
 
 </div>
 
@@ -392,53 +621,54 @@ oninput="filterSKUs()">
 
 
 
-<!-- 详情页 -->
+<!-- SKU详情 -->
+
 
 <div id="detail-view" class="detail-container">
 
 
-<a href="#"
+
+<a
+
+href="#"
+
 class="back-btn"
-onclick="goHome(event)">
+
+onclick="goHome(event)"
+
+>
+
 ← 返回首页
+
 </a>
 
 
 
-<h2 id="detailTitle"
+<h2
+
+id="detailTitle"
+
 class="detail-title">
+
 </h2>
 
 
 
+<!-- 压缩包 -->
 
-<div id="archiveSection"
-style="display:none">
+
+<div id="archiveSection" style="display:none">
+
 
 <div class="section-title">
+
 📦 压缩包资料下载
-</div>
-
-<div id="archiveLinks"
-class="file-links">
-</div>
 
 </div>
 
 
+<div id="archiveLinks" class="file-links"></div>
 
-
-
-<div id="pdfSection"
-style="display:none">
-
-<div class="section-title">
-📄 产品规格书 PDF
-</div>
-
-<div id="pdfLinks"
-class="file-links">
-</div>
 
 </div>
 
@@ -446,43 +676,70 @@ class="file-links">
 
 
 
-<div id="imageSection"
-style="display:none">
+<!-- 产品参数 -->
+
+
+<div id="specSection" style="display:none">
 
 
 <div class="section-title">
+
+📋 产品参数信息
+
+</div>
+
+
+<iframe
+
+id="specFrame"
+
+class="spec-frame"
+
+></iframe>
+
+
+</div>
+
+
+
+
+
+<!-- 图片 -->
+
+
+<div id="imageSection" style="display:none">
+
+
+<div class="section-title">
+
 🖼️ 产品高清图集
-</div>
-
-
-<div id="imageList"
-class="media-list">
-</div>
-
 
 </div>
 
 
+<div id="imageList" class="media-grid"></div>
+
+
+</div>
 
 
 
 
-<div id="videoSection"
-style="display:none">
+
+<!-- 视频 -->
+
+
+<div id="videoSection" style="display:none">
 
 
 <div class="section-title">
+
 🎬 产品视频展示
-</div>
-
-
-<div id="videoList"
-class="media-list">
-</div>
-
 
 </div>
 
+
+<div id="videoList" class="media-grid"></div>
 
 
 </div>
@@ -490,9 +747,13 @@ class="media-list">
 
 
 
+</div>
 
-<div id="lightbox"
-onclick="closeLightbox()">
+
+
+
+
+<div id="lightbox" onclick="closeLightbox()">
 
 
 <img id="lightboxImg">
@@ -501,11 +762,9 @@ onclick="closeLightbox()">
 </div>
 
 
-
-
-
-
-
+<div id="lightbox" onclick="closeLightbox()">
+<img id="lightboxImg">
+</div>
 <script>
 
 
@@ -525,15 +784,17 @@ const REPO_NAME =
 
 
 
+let catalog = {};
+
 let allSKUs=[];
 
 
 
-
-
-
 /*
+===============================
 初始化
+读取 catalog.json
+===============================
 */
 
 
@@ -547,40 +808,25 @@ document.getElementById("loading");
 try{
 
 
-const url =
-`https://api.github.com/repos/${GITHUB_USER}/${REPO_NAME}/contents`;
-
-
-
 const response =
-await fetch(url);
+await fetch("catalog.json");
 
 
-
-const data =
+catalog =
 await response.json();
 
 
 
 allSKUs =
-data
-
-.filter(
-item=>item.type==="dir"
-)
-
-.map(
-item=>item.name
-)
-
+Object.keys(catalog)
 .sort(
-(a,b)=>Number(a)-Number(b)
+(a,b)=>
+Number(a)-Number(b)
 );
 
 
 
 loading.style.display="none";
-
 
 
 renderSKUList(allSKUs);
@@ -592,6 +838,8 @@ checkUrlHash();
 
 
 }
+
+
 catch(error){
 
 
@@ -599,11 +847,10 @@ console.error(error);
 
 
 loading.innerText =
-"自动扫描失败，请检查GitHub配置";
+"catalog.json读取失败";
 
 
 }
-
 
 
 }
@@ -614,66 +861,35 @@ loading.innerText =
 
 
 /*
+===============================
 寻找SKU封面
-优先顺序：
 
-1.jpg
-1.png
-cover.jpg
-cover.png
+自动找第一张图片
 
+===============================
 */
 
 
-async function findCover(sku){
+function findCover(sku){
 
 
-const names=[
-
-"1.jpg",
-
-"1.png",
-
-"cover.jpg",
-
-"cover.png"
-
-];
+const files =
+catalog[sku].files;
 
 
 
-for(const name of names){
-
-
-const url =
-`https://raw.githubusercontent.com/${GITHUB_USER}/${REPO_NAME}/main/${sku}/${name}`;
-
-
-
-try{
-
-
-const res =
-await fetch(url,{method:"HEAD"});
+const img =
+files.find(
+file=>
+file.type==="image"
+);
 
 
 
-if(res.ok){
-
-return url;
-
-}
+if(img){
 
 
-
-}
-catch(e){
-
-
-console.log(e);
-
-
-}
+return img.url;
 
 
 }
@@ -690,17 +906,20 @@ return "default-cover.png";
 
 
 
-/*
-显示SKU列表
 
+/*
+===============================
+首页SKU列表
+===============================
 */
 
 
-async function renderSKUList(skus){
+function renderSKUList(skus){
 
 
 const grid =
 document.getElementById("skuGrid");
+
 
 
 grid.innerHTML="";
@@ -710,11 +929,16 @@ grid.innerHTML="";
 if(skus.length===0){
 
 
-grid.innerHTML =
+grid.innerHTML=
+
 `
+
 <div style="grid-column:1/-1;text-align:center">
+
 没有找到SKU
+
 </div>
+
 `;
 
 return;
@@ -724,12 +948,9 @@ return;
 
 
 
-for(const sku of skus){
 
 
-
-const coverUrl =
-await findCover(sku);
+skus.forEach(sku=>{
 
 
 
@@ -744,12 +965,16 @@ card.className =
 
 
 card.innerHTML =
+
 `
 
 <img
-src="${coverUrl}"
-alt="${sku}"
-onerror="this.src='default-cover.png'">
+
+src="${findCover(sku)}"
+
+onerror="this.src='default-cover.png'"
+
+>
 
 
 <div class="sku-info">
@@ -757,6 +982,7 @@ onerror="this.src='default-cover.png'">
 SKU: ${sku}
 
 </div>
+
 
 `;
 
@@ -771,36 +997,54 @@ grid.appendChild(card);
 
 
 
-}
+});
 
 
 
 }
+
+
+
+
+
+
+
 /*
 ===============================
-加载SKU详情
+打开SKU详情
 ===============================
 */
 
 
-async function loadSKUDetail(sku){
-
-
-document.getElementById("home-view").style.display="none";
-
-document.getElementById("header-section").style.display="none";
+function loadSKUDetail(sku){
 
 
 
-const detailView =
+document
+.getElementById("home-view")
+.style.display="none";
+
+
+
+document
+.getElementById("header-section")
+.style.display="none";
+
+
+
+const detail =
 document.getElementById("detail-view");
 
 
-detailView.style.display="block";
+
+detail.style.display="block";
 
 
 
-document.getElementById("detailTitle").innerText =
+document
+.getElementById("detailTitle")
+.innerText=
+
 `SKU: ${sku}`;
 
 
@@ -811,61 +1055,62 @@ window.location.hash =
 
 
 
-// 重置区域
+// 清空旧数据
 
 
-document.getElementById("archiveSection").style.display="none";
-
-document.getElementById("pdfSection").style.display="none";
-
-document.getElementById("imageSection").style.display="none";
-
-document.getElementById("videoSection").style.display="none";
+document.getElementById("archiveLinks")
+.innerHTML="";
 
 
+document.getElementById("imageList")
+.innerHTML="";
 
 
-try{
-
-
-const url =
-`https://api.github.com/repos/${GITHUB_USER}/${REPO_NAME}/contents/${sku}`;
+document.getElementById("videoList")
+.innerHTML="";
 
 
 
-const response =
-await fetch(url);
+document.getElementById("specFrame")
+.src="";
+
+
+
+
+// 隐藏区域
+
+
+[
+"archiveSection",
+"specSection",
+"imageSection",
+"videoSection"
+
+]
+.forEach(id=>{
+
+document
+.getElementById(id)
+.style.display="none";
+
+});
+
+
 
 
 
 const files =
-await response.json();
+catalog[sku].files;
 
 
 
-let archivesHtml="";
+let archives="";
 
-let pdfsHtml="";
+let images="";
 
-let imagesHtml="";
+let videos="";
 
-let videosHtml="";
-
-
-
-
-
-files.sort(
-(a,b)=>
-a.name.localeCompare(
-b.name,
-undefined,
-{
-numeric:true
-}
-)
-);
-
+let spec="";
 
 
 
@@ -874,74 +1119,38 @@ numeric:true
 files.forEach(file=>{
 
 
-const fileUrl =
-file.download_url;
-
-
-const fileName =
-file.name;
-
-
-const ext =
-fileName
-.split(".")
-.pop()
-.toLowerCase();
 
 
 
+/*
+压缩包
+*/
 
 
-// 压缩包
+if(file.type==="archive"){
 
 
-if(
-[
-"zip",
-"rar",
-"7z"
-].includes(ext)
-){
+archives +=
 
 
-archivesHtml +=
 `
 
 <a
-href="${fileUrl}"
-class="file-btn"
+
+href="${file.url}"
+
+class="file-btn archive-btn"
+
 target="_blank">
 
-📥 下载 ${fileName}
+📥 下载 ${file.name}
 
 </a>
 
-`;
-
-}
-
-
-
-
-// PDF
-
-
-else if(ext==="pdf"){
-
-
-pdfsHtml +=
-`
-
-<a
-href="${fileUrl}"
-class="file-btn pdf-btn"
-target="_blank">
-
-📄 下载 ${fileName}
-
-</a>
 
 `;
+
+
 
 }
 
@@ -949,69 +1158,95 @@ target="_blank">
 
 
 
-// 图片
+/*
+产品参数HTML
+*/
 
 
 else if(
-[
-"jpg",
-"jpeg",
-"png",
-"webp",
-"gif"
-].includes(ext)
+file.name.toLowerCase()
+==="product-spec.html"
 ){
 
 
-imagesHtml +=
+spec =
+file.url;
+
+
+
+}
+
+
+
+
+
+/*
+图片
+*/
+
+
+else if(
+file.type==="image"
+){
+
+
+images +=
+
+
 `
 
 <img
 
-src="${fileUrl}"
+src="${file.url}"
 
 loading="lazy"
 
-alt="${fileName}"
-
-onclick="openLightbox('${fileUrl}')"
+onclick="openLightbox('${file.url}')"
 
 >
 
+
 `;
+
+
 
 }
 
 
 
 
-
-// 视频
+/*
+视频
+*/
 
 
 else if(
-[
-"mp4",
-"webm",
-"mov"
-].includes(ext)
+file.type==="video"
 ){
 
 
-videosHtml +=
+
+videos +=
+
+
 `
 
 <video
 
-src="${fileUrl}"
+src="${file.url}"
 
 controls
 
-playsinline>
+playsinline
+
+>
 
 </video>
 
+
 `;
+
+
 
 }
 
@@ -1025,58 +1260,20 @@ playsinline>
 
 
 
-
-// 显示模块
-
+// 显示压缩包
 
 
-if(archivesHtml){
+if(archives){
 
 
-document.getElementById("archiveLinks")
-.innerHTML =
-archivesHtml;
+document
+.getElementById("archiveLinks")
+.innerHTML=
+archives;
 
 
-document.getElementById("archiveSection")
-.style.display="block";
-
-
-}
-
-
-
-
-
-if(pdfsHtml){
-
-
-document.getElementById("pdfLinks")
-.innerHTML =
-pdfsHtml;
-
-
-document.getElementById("pdfSection")
-.style.display="block";
-
-
-}
-
-
-
-
-
-
-if(imagesHtml){
-
-
-document.getElementById("imageList")
-.innerHTML =
-imagesHtml;
-
-
-
-document.getElementById("imageSection")
+document
+.getElementById("archiveSection")
 .style.display="block";
 
 
@@ -1088,16 +1285,22 @@ document.getElementById("imageSection")
 
 
 
-if(videosHtml){
+// 显示参数HTML
 
 
-document.getElementById("videoList")
-.innerHTML =
-videosHtml;
+if(spec){
 
 
 
-document.getElementById("videoSection")
+document
+.getElementById("specFrame")
+.src=
+spec;
+
+
+
+document
+.getElementById("specSection")
 .style.display="block";
 
 
@@ -1107,19 +1310,57 @@ document.getElementById("videoSection")
 
 
 
+
+
+// 显示图片
+
+
+if(images){
+
+
+document
+.getElementById("imageList")
+.innerHTML=
+images;
+
+
+
+document
+.getElementById("imageSection")
+.style.display="block";
+
+
 }
 
 
-catch(error){
 
 
-console.error(
-"加载SKU失败:",
-error
-);
+
+
+
+
+// 显示视频
+
+
+if(videos){
+
+
+document
+.getElementById("videoList")
+.innerHTML=
+videos;
+
+
+
+document
+.getElementById("videoSection")
+.style.display="block";
 
 
 }
+
+
+
 
 
 }
@@ -1133,7 +1374,7 @@ error
 
 /*
 ===============================
-图片灯箱
+图片放大
 ===============================
 */
 
@@ -1141,9 +1382,9 @@ error
 function openLightbox(url){
 
 
+
 const box =
 document.getElementById("lightbox");
-
 
 const img =
 document.getElementById("lightboxImg");
@@ -1156,7 +1397,9 @@ img.src=url;
 box.style.display="flex";
 
 
+
 }
+
 
 
 
@@ -1164,7 +1407,8 @@ box.style.display="flex";
 function closeLightbox(){
 
 
-document.getElementById("lightbox")
+document
+.getElementById("lightbox")
 .style.display="none";
 
 
@@ -1176,10 +1420,9 @@ document.getElementById("lightbox")
 
 
 
-
 /*
 ===============================
-搜索
+搜索SKU
 ===============================
 */
 
@@ -1188,33 +1431,36 @@ function filterSKUs(){
 
 
 const keyword =
+
 document
-
 .getElementById("searchInput")
-
 .value
-
 .trim()
-
 .toLowerCase();
 
 
 
 
-const filtered =
+const result =
+
 allSKUs.filter(
+
 sku=>
+
 sku
 .toLowerCase()
 .includes(keyword)
+
 );
 
 
 
-renderSKUList(filtered);
+renderSKUList(result);
+
 
 
 }
+
 
 
 
@@ -1241,18 +1487,22 @@ window.location.hash="";
 
 
 
-document.getElementById("detail-view")
+document
+.getElementById("detail-view")
 .style.display="none";
 
 
 
-document.getElementById("home-view")
+document
+.getElementById("home-view")
 .style.display="block";
 
 
 
-document.getElementById("header-section")
+document
+.getElementById("header-section")
 .style.display="flex";
+
 
 
 }
@@ -1266,11 +1516,9 @@ document.getElementById("header-section")
 
 /*
 ===============================
-URL直接打开SKU
+支持直接打开：
 
-例如:
-
-xxx.com/#sku=100056
+xxx.com/#sku=100062
 
 ===============================
 */
@@ -1294,14 +1542,18 @@ hash.replace("#sku=","");
 
 
 
-if(sku){
+if(
+catalog[sku]
+){
 
 loadSKUDetail(sku);
 
+
 }
 
 
 }
+
 
 
 }
@@ -1314,6 +1566,7 @@ loadSKUDetail(sku);
 
 /*
 启动
+
 */
 
 
@@ -1325,6 +1578,5 @@ init();
 
 
 </body>
-
 
 </html>
