@@ -224,6 +224,8 @@ function buildCatalog(){
         ){
 
 
+        console.log("发现SKU:", folder);
+
 
 
 
