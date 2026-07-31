@@ -898,53 +898,14 @@ allSKUs = Object.keys(catalog)
 
 
 
-const response =
+const response = await fetch("catalog.json");
 
-await fetch(url);
+const catalog = await response.json();
 
-
-
-const data =
-
-await response.json();
-
-
-
-
-
-
-allSKUs =
-
-data
-
-.filter(
-
-item =>
-
-item.type==="dir"
-
-&&
-
-/^\d+$/.test(item.name)
-
-)
-
-
-.map(
-
-item=>item.name
-
-)
-
-
+allSKUs = Object.keys(catalog)
 .sort(
-
-(a,b)=>
-
-Number(a)-Number(b)
-
+(a,b)=>Number(a)-Number(b)
 );
-
 
 
 
