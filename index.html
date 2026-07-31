@@ -887,10 +887,13 @@ try{
 
 
 
+console.log("开始读取catalog");
+
 const response = await fetch("catalog.json");
 
 const catalog = await response.json();
 
+console.log(catalog);
 allSKUs = Object.keys(catalog)
 .sort(
 (a,b)=>Number(a)-Number(b)
