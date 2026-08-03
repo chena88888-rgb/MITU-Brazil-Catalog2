@@ -890,10 +890,9 @@ try{
 
 console.log("开始读取catalog");
 
-const response = await fetch("catalog.json");
+const urlResponse = await fetch(url);
 
-const catalog = await response.json();
-
+const data = await urlResponse.json();
 console.log(catalog);
 allSKUs = Object.keys(catalog)
 .sort(
