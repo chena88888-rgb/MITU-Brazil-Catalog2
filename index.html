@@ -888,11 +888,12 @@ try{
 
 
 
-const urlResponse = await fetch(url);
+console.log("开始读取catalog");
 
-const data = await urlResponse.json();
+const response = await fetch("catalog.json");
 
-const data = await response.json();
+const catalog = await response.json();
+
 console.log(catalog);
 allSKUs = Object.keys(catalog)
 .sort(
