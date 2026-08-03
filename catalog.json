@@ -1,4 +1,64 @@
 {
+  "100033": {
+    "sku": "100033",
+    "files": [
+      {
+        "name": "1.jpg",
+        "type": "image",
+        "url": "100033/1.jpg"
+      },
+      {
+        "name": "10.png",
+        "type": "image",
+        "url": "100033/10.png"
+      },
+      {
+        "name": "2.jpg",
+        "type": "image",
+        "url": "100033/2.jpg"
+      },
+      {
+        "name": "3.jpg",
+        "type": "image",
+        "url": "100033/3.jpg"
+      },
+      {
+        "name": "4.jpg",
+        "type": "image",
+        "url": "100033/4.jpg"
+      },
+      {
+        "name": "5.jpg",
+        "type": "image",
+        "url": "100033/5.jpg"
+      },
+      {
+        "name": "6.jpg",
+        "type": "image",
+        "url": "100033/6.jpg"
+      },
+      {
+        "name": "7.jpg",
+        "type": "image",
+        "url": "100033/7.jpg"
+      },
+      {
+        "name": "8.jpg",
+        "type": "image",
+        "url": "100033/8.jpg"
+      },
+      {
+        "name": "9.png",
+        "type": "image",
+        "url": "100033/9.png"
+      },
+      {
+        "name": "product-spec.html",
+        "type": "spec",
+        "url": "100033/product-spec.html"
+      }
+    ]
+  },
   "100056": {
     "sku": "100056",
     "files": [
