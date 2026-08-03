@@ -1452,6 +1452,48 @@ spec=file.download_url;
 
 });
 
+
+// 输出压缩包
+
+if(archives){
+
+document.getElementById("archiveLinks").innerHTML=archives;
+
+document.getElementById("archiveSection").style.display="block";
+
+}
+
+
+// 输出图片
+
+if(images){
+
+document.getElementById("imageList").innerHTML=images;
+
+document.getElementById("imageSection").style.display="block";
+
+}
+
+
+// 输出视频
+
+if(videos){
+
+document.getElementById("videoList").innerHTML=videos;
+
+document.getElementById("videoSection").style.display="block";
+
+}
+
+
+// 输出参数
+
+if(spec){
+
+document.getElementById("specFrame").src=spec;
+
+document.getElementById("specSection").style.display="block";
+
 }
 
 
