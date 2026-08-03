@@ -1361,69 +1361,94 @@ let spec="";
 
 files.forEach(file=>{
 
+const name = file.name;
+
+const ext = name.split(".").pop().toLowerCase();
 
 
-const name =
-
-file.name;
-
-
-
-const ext =
-
-name.split(".")
-
-.pop()
-
-.toLowerCase();
-
-
-
-
+// 压缩包
 
 if(
-
 [
-
 "zip",
-
 "rar",
-
 "7z"
-
-]
-
-.includes(ext)
-
+].includes(ext)
 ){
 
-
-
 archives +=
-
 `
-
 <a
-
 href="${file.download_url}"
-
 class="file-btn archive-btn"
-
 target="_blank">
 
 📥 下载 ${name}
 
 </a>
+`;
+
+}
+
+
+// 图片
+
+if(
+[
+"jpg",
+"jpeg",
+"png",
+"webp"
+].includes(ext)
+){
+
+images +=
+`
+
+<img
+src="${file.download_url}"
+onclick="openLightbox('${file.download_url}')"
+>
 
 `;
 
+}
 
-document.getElementById("archiveLinks").innerHTML = archives;
 
-document.getElementById("archiveSection").style.display="block";
+// 视频
 
+if(
+[
+"mp4",
+"mov",
+"webm"
+].includes(ext)
+){
+
+videos +=
+`
+
+<video controls>
+
+<source src="${file.download_url}">
+
+</video>
+
+`;
 
 }
+
+
+// 参数HTML
+
+if(
+name.toLowerCase()==="product-spec.html"
+){
+
+spec=file.download_url;
+
+}
+
 
 });
 
