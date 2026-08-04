@@ -1,4 +1,3 @@
-```javascript
 // build.js
 //
 // 自动扫描SKU文件夹
@@ -292,16 +291,18 @@ function buildCatalog(){
 
 
                    url:
-                   `${folder}/${file}`,
+                   folder + "/" + file,
 
 
 
                     updatedAt:
+
                     getUpdateTime(filePath),
 
 
 
                     recent:
+
                     isRecent(filePath)
 
 
