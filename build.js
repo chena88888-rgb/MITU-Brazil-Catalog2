@@ -1,3 +1,4 @@
+```javascript
 // build.js
 //
 // 自动扫描SKU文件夹
@@ -12,16 +13,20 @@ const path = require("path");
 const PRODUCTS = require("./products.json");
 
 
-
 // 当前仓库目录
 
 const ROOT = __dirname;
 
 
-
 // 输出文件
 
 const OUTPUT = "catalog.json";
+
+
+
+// ===============================
+// 时间格式化
+// ===============================
 
 function formatTime(time){
 
@@ -41,6 +46,12 @@ function formatTime(time){
 
 }
 
+
+
+// ===============================
+// 获取更新时间
+// ===============================
+
 function getUpdateTime(filePath){
 
     const stat = fs.statSync(filePath);
@@ -51,30 +62,48 @@ function getUpdateTime(filePath){
 
 
 
+// ===============================
+// 判断7天内更新
+// ===============================
+
+function isRecent(filePath){
+
+    const stat = fs.statSync(filePath);
 
 
-/*
-===============================
-判断文件类型
-===============================
-*/
+    const now = Date.now();
 
+
+    const diff =
+    now - stat.mtimeMs;
+
+
+    const sevenDays =
+    7 * 24 * 60 * 60 * 1000;
+
+
+    return diff <= sevenDays;
+
+}
+
+
+
+
+
+// ===============================
+// 判断文件类型
+// ===============================
 
 function getType(file){
 
 
     const ext =
-
     path.extname(file)
-
     .toLowerCase();
 
 
 
-    // 图片
-
     if(
-
         [
             ".jpg",
             ".jpeg",
@@ -82,9 +111,7 @@ function getType(file){
             ".webp",
             ".gif"
         ]
-
         .includes(ext)
-
     ){
 
         return "image";
@@ -92,10 +119,6 @@ function getType(file){
     }
 
 
-
-
-
-    // 产品参数HTML
 
     if(
 
@@ -115,15 +138,7 @@ function getType(file){
 
 
 
-
-
-    // PDF备用
-
-    if(
-
-        ext === ".pdf"
-
-    ){
+    if(ext === ".pdf"){
 
         return "pdf";
 
@@ -131,21 +146,14 @@ function getType(file){
 
 
 
-
-
-    // 视频
-
     if(
-
         [
             ".mp4",
             ".mov",
             ".webm",
             ".avi"
         ]
-
         .includes(ext)
-
     ){
 
         return "video";
@@ -154,22 +162,13 @@ function getType(file){
 
 
 
-
-
-
-
-    // 压缩包
-
     if(
-
         [
             ".zip",
             ".rar",
             ".7z"
         ]
-
         .includes(ext)
-
     ){
 
         return "archive";
@@ -178,10 +177,7 @@ function getType(file){
 
 
 
-
-
     return "file";
-
 
 }
 
@@ -189,17 +185,12 @@ function getType(file){
 
 
 
-
-
-/*
-===============================
-生成catalog
-===============================
-*/
+// ===============================
+// 生成catalog
+// ===============================
 
 
 function buildCatalog(){
-
 
 
     const catalog = {};
@@ -207,38 +198,17 @@ function buildCatalog(){
 
 
     const folders =
-
     fs.readdirSync(ROOT);
-
-
-
 
 
 
     folders.forEach(folder=>{
 
 
-
-
-
         const folderPath =
-
         path.join(ROOT,folder);
 
 
-
-
-
-
-        /*
-        只处理数字SKU文件夹
-
-        例如：
-
-        100056
-        100057
-
-        */
 
         if(
 
@@ -252,49 +222,50 @@ function buildCatalog(){
         ){
 
 
-        console.log("发现SKU:", folder);
 
+            console.log("发现SKU:", folder);
 
 
 
             const files =
-
             fs.readdirSync(folderPath);
 
 
 
 
 
+            catalog[folder]={
 
 
-           catalog[folder]={
-catalog[folder]={
+                sku:folder,
 
 
-    sku:folder,
+                name:
+                PRODUCTS[folder]?.name || "",
 
 
-    name:
-    PRODUCTS[folder]?.name || "",
+                category:
+                PRODUCTS[folder]?.category || "",
 
 
-    category:
-    PRODUCTS[folder]?.category || "",
+                keywords:
+                PRODUCTS[folder]?.keywords || [],
 
 
-    keywords:
-    PRODUCTS[folder]?.keywords || [],
+
+                updatedAt:
+                getUpdateTime(folderPath),
 
 
-    updatedAt:
-    getUpdateTime(folderPath),
+
+                recent:
+                isRecent(folderPath),
 
 
-    files:[]
 
-};
+                files:[]
 
-
+            };
 
 
 
@@ -304,34 +275,37 @@ catalog[folder]={
             files.forEach(file=>{
 
 
+                const filePath =
+                path.join(folderPath,file);
 
 
 
-               catalog[folder]
-.files
-.push({
-
-    name:file,
+                catalog[folder]
+                .files
+                .push({
 
 
-    type:getType(file),
+                    name:file,
 
 
-    url:
-
-    `${folder}/${file}`,
+                    type:getType(file),
 
 
-    updatedAt:
-
-    getUpdateTime(
-        path.join(folderPath,file)
-    )
+                    url:
+                    `${folder}/${file}`,
 
 
-});
+
+                    updatedAt:
+                    getUpdateTime(filePath),
 
 
+
+                    recent:
+                    isRecent(filePath)
+
+
+                });
 
 
 
@@ -339,19 +313,11 @@ catalog[folder]={
 
 
 
-
-
-
         }
 
 
 
-
-
-
     });
-
-
 
 
 
@@ -382,8 +348,6 @@ catalog[folder]={
 
 
 
-
-
     console.log(
 
         "catalog.json生成完成"
@@ -392,13 +356,10 @@ catalog[folder]={
 
 
 
-
-
 }
 
 
 
 
-
-
 buildCatalog();
+```
