@@ -291,8 +291,8 @@ function buildCatalog(){
                     type:getType(file),
 
 
-                    url:
-                   `${folder}/${file}`
+                   url:
+                   `${folder}/${file}`,
 
 
 
