@@ -292,7 +292,7 @@ function buildCatalog(){
 
 
                     url:
-                    `${folder}/${file}`,
+                   `${folder}/${file}`
 
 
 
