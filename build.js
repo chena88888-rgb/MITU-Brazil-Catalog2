@@ -23,6 +23,32 @@ const ROOT = __dirname;
 
 const OUTPUT = "catalog.json";
 
+function formatTime(time){
+
+    const date = new Date(time);
+
+
+    return date.toLocaleString(
+        "zh-CN",
+        {
+            year:"numeric",
+            month:"2-digit",
+            day:"2-digit",
+            hour:"2-digit",
+            minute:"2-digit"
+        }
+    );
+
+}
+
+function getUpdateTime(filePath){
+
+    const stat = fs.statSync(filePath);
+
+    return formatTime(stat.mtime);
+
+}
+
 
 
 
@@ -242,6 +268,7 @@ function buildCatalog(){
 
 
            catalog[folder]={
+catalog[folder]={
 
 
     sku:folder,
@@ -259,10 +286,13 @@ function buildCatalog(){
     PRODUCTS[folder]?.keywords || [],
 
 
+    updatedAt:
+    getUpdateTime(folderPath),
+
+
     files:[]
 
 };
-
 
 
 
@@ -277,29 +307,29 @@ function buildCatalog(){
 
 
 
-                catalog[folder]
+               catalog[folder]
+.files
+.push({
 
-                .files
-
-                .push({
-
-
-
-                    name:file,
+    name:file,
 
 
-
-                    type:getType(file),
-
+    type:getType(file),
 
 
-                    url:
+    url:
 
-                    `${folder}/${file}`
+    `${folder}/${file}`,
 
 
+    updatedAt:
 
-                });
+    getUpdateTime(
+        path.join(folderPath,file)
+    )
+
+
+});
 
 
 
