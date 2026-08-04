@@ -662,7 +662,7 @@ id="searchInput"
 
 class="search-bar"
 
-placeholder="🔍 输入 SKU 快速搜索..."
+placeholder="🔍 搜索SKU / 产品名称 / 类目..."
 
 oninput="filterSKUs()"
 
@@ -859,6 +859,8 @@ const REPO_NAME =
 
 let allSKUs=[];
 
+let catalog={};
+
 
 
 
@@ -892,7 +894,7 @@ console.log("开始读取catalog");
 
 const response = await fetch("catalog.json");
 
-const catalog = await response.json();
+catalog = await response.json();
 
 console.log(catalog);
 allSKUs = Object.keys(catalog)
@@ -1580,52 +1582,57 @@ SKU搜索
 function filterSKUs(){
 
 
-
 const keyword =
-
 document
-
 .getElementById("searchInput")
-
 .value
-
 .trim()
-
 .toLowerCase();
 
 
 
+const result = allSKUs.filter(sku=>{
 
 
-const result =
+const info = catalog[sku] || {};
 
 
-allSKUs.filter(
 
+return (
 
-sku =>
+sku.toLowerCase().includes(keyword)
 
+||
 
-sku
-
+(info.name || "")
 .toLowerCase()
-
 .includes(keyword)
 
 
+||
+
+(info.category || "")
+.toLowerCase()
+.includes(keyword)
+
+
+||
+
+(info.keywords || [])
+.join(" ")
+.toLowerCase()
+.includes(keyword)
 
 );
 
 
-
+});
 
 
 renderSKUList(result);
 
 
-
 }
-
 
 
 

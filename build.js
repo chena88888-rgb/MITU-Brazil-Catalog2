@@ -9,6 +9,8 @@ const fs = require("fs");
 
 const path = require("path");
 
+const PRODUCTS = require("./products.json");
+
 
 
 // 当前仓库目录
@@ -239,16 +241,27 @@ function buildCatalog(){
 
 
 
-            catalog[folder]={
+           catalog[folder]={
 
 
-                sku:folder,
+    sku:folder,
 
 
-                files:[]
+    name:
+    PRODUCTS[folder]?.name || "",
 
 
-            };
+    category:
+    PRODUCTS[folder]?.category || "",
+
+
+    keywords:
+    PRODUCTS[folder]?.keywords || [],
+
+
+    files:[]
+
+};
 
 
 
