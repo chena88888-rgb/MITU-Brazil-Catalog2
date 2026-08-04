@@ -82,6 +82,11 @@
         "url": "100056/10.png"
       },
       {
+        "name": "100056.rar",
+        "type": "archive",
+        "url": "100056/100056.rar"
+      },
+      {
         "name": "2.jpg",
         "type": "image",
         "url": "100056/2.jpg"
@@ -125,6 +130,11 @@
         "name": "video1.mp4",
         "type": "video",
         "url": "100056/video1.mp4"
+      },
+      {
+        "name": "video2.mp4",
+        "type": "video",
+        "url": "100056/video2.mp4"
       }
     ]
   },
