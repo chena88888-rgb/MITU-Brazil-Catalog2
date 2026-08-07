@@ -1157,14 +1157,11 @@ card.className=
 
 const info = catalog[sku] || {};
 
-
-card.innerHTML=
-`
+card.innerHTML = `
 <img
 src="${cover}"
 onerror="this.src='default-cover.png'"
 >
-
 
 <div class="sku-info">
 
@@ -1184,9 +1181,7 @@ ${info.updatedAt || "暂无记录"}
 
 ${
 info.recent
-
 ?
-
 `
 <span class="recent-tag">
 
@@ -1194,15 +1189,11 @@ info.recent
 
 </span>
 `
-
 :
-
 ""
-
 }
 
 `;
-
 
 
 
