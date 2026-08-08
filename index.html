@@ -1112,36 +1112,59 @@ return "default-cover.png";
 
 async function renderSKUList(skus){
 
+
+
 const grid =
+
 document.getElementById("skuGrid");
 
+
+
 grid.innerHTML="";
+
+
+
 
 
 for(const sku of skus){
 
 
+
+
+
 const cover =
+
 await findCover(sku);
 
 
+
+
+
 const card =
+
 document.createElement("div");
 
 
+
 card.className=
+
 "sku-card";
 
 
-const info = catalog[sku] || {};
 
 
-card.innerHTML =
+
+
+card.innerHTML=
+
 `
 
 <img
+
 src="${cover}"
+
 onerror="this.src='default-cover.png'"
+
 >
 
 
@@ -1151,44 +1174,32 @@ SKU: ${sku}
 
 </div>
 
-
-<div class="update-info">
-
-最后更新：
-
-${info.updatedAt || "暂无记录"}
-
-</div>
-
-
-${
-info.recent
-?
-`
-<span class="recent-tag">
-
-🟢 最近7天更新
-
-</span>
-`
-:
-""
-}
-
-
 `;
 
 
-card.onclick =
+
+
+
+
+card.onclick=
+
 ()=>loadSKUDetail(sku);
+
+
+
 
 
 grid.appendChild(card);
 
 
-}
+
 
 }
+
+
+
+}
+
 
 
 
@@ -1390,36 +1401,13 @@ if(
 ].includes(ext)
 ){
 
-const fileDate =
-file.updated_at
-?
-new Date(file.updated_at)
-.toLocaleDateString()
-:
-"";
-
-
 images +=
 `
-
-<div>
 
 <img
 src="${file.download_url}"
 onclick="openLightbox('${file.download_url}')"
 >
-
-
-<div class="update-info">
-
-更新时间：
-
-${fileDate}
-
-</div>
-
-
-</div>
 
 `;
 
@@ -1436,20 +1424,8 @@ if(
 ].includes(ext)
 ){
 
-const videoDate =
-file.updated_at
-?
-new Date(file.updated_at)
-.toLocaleDateString()
-:
-"";
-
-
 videos +=
 `
-
-<div>
-
 
 <video controls>
 
@@ -1457,19 +1433,8 @@ videos +=
 
 </video>
 
-
-<div class="update-info">
-
-更新时间：
-
-${videoDate}
-
-</div>
-
-
-</div>
-
 `;
+
 }
 
 
@@ -1804,44 +1769,6 @@ loadSKUDetail(sku);
 window.init = init;
 
 init();
-
-/* 更新时间 */
-
-.update-info{
-
-font-size:13px;
-
-color:#666;
-
-margin-top:6px;
-
-text-align:center;
-
-}
-
-
-
-/* 最近更新标签 */
-
-.recent-tag{
-
-display:inline-block;
-
-margin-top:6px;
-
-padding:3px 10px;
-
-background:#e6f4ea;
-
-color:#137333;
-
-border-radius:12px;
-
-font-size:12px;
-
-font-weight:bold;
-
-}
 
 
 </script>
