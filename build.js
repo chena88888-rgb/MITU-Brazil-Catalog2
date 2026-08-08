@@ -102,20 +102,19 @@ function getType(file){
 
 
 
-    if(
-        [
-            ".jpg",
-            ".jpeg",
-            ".png",
-            ".webp",
-            ".gif"
-        ]
-        .includes(ext)
-    ){
+if(
+    [
+        ".jpg",
+        ".jpeg",
+        ".png",
+        ".webp",
+        ".gif"
+    ].indexOf(ext) !== -1
+){
 
-        return "image";
+    return "image";
 
-    }
+}
 
 
 
@@ -152,7 +151,7 @@ function getType(file){
             ".webm",
             ".avi"
         ]
-        .includes(ext)
+        .indexOf(ext) !== -1
     ){
 
         return "video";
@@ -167,7 +166,7 @@ function getType(file){
             ".rar",
             ".7z"
         ]
-        .includes(ext)
+        .indexOf(ext) !== -1
     ){
 
         return "archive";
@@ -239,17 +238,16 @@ function buildCatalog(){
                 sku:folder,
 
 
-                name:
-                PRODUCTS[folder]?.name || "",
+             name:
+             PRODUCTS[folder] ? PRODUCTS[folder].name : "",
 
 
-                category:
-                PRODUCTS[folder]?.category || "",
+             category:
+             PRODUCTS[folder] ? PRODUCTS[folder].category : "",
 
 
-                keywords:
-                PRODUCTS[folder]?.keywords || [],
-
+             keywords:
+             PRODUCTS[folder] ? PRODUCTS[folder].keywords : [],
 
 
                 updatedAt:
