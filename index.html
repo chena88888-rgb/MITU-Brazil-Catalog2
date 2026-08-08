@@ -1112,56 +1112,38 @@ return "default-cover.png";
 
 async function renderSKUList(skus){
 
-
-
 const grid =
-
 document.getElementById("skuGrid");
 
-
-
 grid.innerHTML="";
-
-
-
 
 
 for(const sku of skus){
 
 
-
-
-
 const cover =
-
 await findCover(sku);
 
 
-
-
-
 const card =
-
 document.createElement("div");
 
 
-
 card.className=
-
 "sku-card";
-
-
-
-
 
 
 const info = catalog[sku] || {};
 
-card.innerHTML = `
+
+card.innerHTML =
+`
+
 <img
 src="${cover}"
 onerror="this.src='default-cover.png'"
 >
+
 
 <div class="sku-info">
 
@@ -1193,31 +1175,20 @@ info.recent
 ""
 }
 
+
 `;
 
 
-
-
-
-card.onclick=
-
+card.onclick =
 ()=>loadSKUDetail(sku);
-
-
-
 
 
 grid.appendChild(card);
 
 
-
-
 }
 
-
-
 }
-
 
 
 
