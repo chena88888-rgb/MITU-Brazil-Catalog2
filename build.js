@@ -9,7 +9,14 @@ const fs = require("fs");
 
 const path = require("path");
 
-const PRODUCTS = require("./products.json");
+let PRODUCTS = {};
+
+try {
+    PRODUCTS = require("./products.json");
+} catch (error) {
+    console.warn("⚠️ products.json 无法读取");
+    console.warn("⚠️ 将继续生成 catalog.json，但商品名称/分类/关键词可能为空");
+}
 
 
 // 当前仓库目录
