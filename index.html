@@ -842,7 +842,7 @@ const GITHUB_USER =
 
 const REPO_NAME =
 
-"MITU-Brazil-Catalog2";
+"MITU-Brazil-Catalog3";
 
 
 
@@ -851,6 +851,7 @@ const REPO_NAME =
 let allSKUs=[];
 
 let catalog={};
+let productMetadata={};
 
 
 
@@ -886,6 +887,11 @@ console.log("开始读取catalog");
 const response = await fetch("catalog.json");
 
 catalog = await response.json();
+// 手工维护的名称、分类及关键词可能保存在 products.json。
+try {
+  const metaResponse = await fetch("products.json", {cache:"no-store"});
+  if (metaResponse.ok) productMetadata = await metaResponse.json();
+} catch(e) { console.warn("products.json 暂时不可用", e); }
 
 console.log(catalog);
 allSKUs = Object.keys(catalog)
@@ -955,153 +961,40 @@ cover.png
 */
 
 
-async function findCover(sku){
-
-
-
-const priority = [
-
-
-"1.jpg",
-
-"1.png",
-
-"1.jpeg",
-
-"1.webp"
-
-];
-
-
-
-
-
-for(const name of priority){
-
-
-
-const url =
-
-
-`https://raw.githubusercontent.com/${GITHUB_USER}/${REPO_NAME}/main/${sku}/${name}`;
-
-
-
-
-
-try{
-
-
-
-const res =
-
-await fetch(url,{method:"HEAD"});
-
-
-
-
-if(res.ok){
-
-
-return url;
-
-
+function skuFiles(sku){
+  const info = catalog[sku] || {};
+  return Array.isArray(info.files) ? info.files : [];
 }
-
-
+function fileName(file){ return typeof file === "string" ? file : String(file.name || ""); }
+function fileUrl(sku,file){
+  const raw = typeof file === "string" ? file : String(file.url || file.name || "");
+  if (/^https?:\/\//i.test(raw)) return raw;
+  const clean = raw.replace(/^\.\//, "").replace(/^\//, "");
+  return clean.startsWith(sku + "/") ? clean : `${sku}/${clean}`;
 }
-
-catch(e){}
-
-
-
+function findCover(sku){
+  const files = skuFiles(sku);
+  const pictures = files.filter(f => /\.(jpg|jpeg|png|webp)$/i.test(fileName(f)));
+  const rank = n => /^(cover|1)\.(jpg|jpeg|png|webp)$/i.test(n) ? 0 : 1;
+  pictures.sort((a,b) => rank(fileName(a))-rank(fileName(b)));
+  return pictures.length ? fileUrl(sku,pictures[0]) : `${sku}/1.jpg`;
 }
-
-
-
-
-
-
-
-
-// 如果没有1.jpg
-
-// 找其它图片
-
-
-const files =
-
-
-await fetch(
-
-`https://api.github.com/repos/${GITHUB_USER}/${REPO_NAME}/contents/${sku}`
-
-)
-
-.then(r=>r.json());
-
-
-
-
-
-
-const img =
-
-files.find(
-
-file=>
-
-[
-
-"jpg",
-
-"jpeg",
-
-"png",
-
-"webp"
-
-]
-
-.includes(
-
-file.name.split(".").pop().toLowerCase()
-
-)
-
-);
-
-
-
-
-
-if(img){
-
-
-return img.download_url;
-
-
+function applyCoverFallback(img,sku){
+  const candidates = [...new Set([findCover(sku),`${sku}/cover.jpg`,`${sku}/cover.png`,`${sku}/1.jpg`,`${sku}/1.png`,`${sku}/1.jpeg`,`${sku}/1.webp`,`default-cover.png`])];
+  let index = 0;
+  img.onerror = () => { index++; if(index < candidates.length) img.src = candidates[index]; else img.onerror = null; };
+  img.src = candidates[0];
 }
-
-
-
-
-
-
-return "default-cover.png";
-
-
-
+function productInfo(sku){
+  const c = catalog[sku] || {};
+  const root = productMetadata || {};
+  const p = (root[sku] || (root.products && root.products[sku]) || (Array.isArray(root.products) ? root.products.find(x => String(x.sku || x.id) === sku) : null) || {});
+  return {
+    name: String(p.name || p.title || c.name || ""),
+    category: String(p.category || c.category || ""),
+    keywords: [...(Array.isArray(c.keywords)?c.keywords:[]), ...(Array.isArray(p.keywords)?p.keywords:typeof p.keywords === "string"?p.keywords.split(/[,，;；]/):[])]
+  };
 }
-
-
-
-
-
-
-
-
-
 /*
 ===============================
 首页SKU卡片
@@ -1110,101 +1003,26 @@ return "default-cover.png";
 */
 
 
-async function renderSKUList(skus){
-
-
-
-const grid =
-
-document.getElementById("skuGrid");
-
-
-
-grid.innerHTML="";
-
-
-
-
-
-for(const sku of skus){
-
-
-
-
-
-const cover =
-
-await findCover(sku);
-
-
-
-
-
-const card =
-
-document.createElement("div");
-
-
-
-card.className=
-
-"sku-card";
-
-
-
-
-
-
-card.innerHTML=
-
-`
-
-<img
-
-src="${cover}"
-
-onerror="this.src='default-cover.png'"
-
->
-
-
-<div class="sku-info">
-
-SKU: ${sku}
-
-</div>
-
-`;
-
-
-
-
-
-
-card.onclick=
-
-()=>loadSKUDetail(sku);
-
-
-
-
-
-grid.appendChild(card);
-
-
-
-
+function renderSKUList(skus){
+  const grid = document.getElementById("skuGrid");
+  // 每次搜索立即同步生成最新结果，不留下任何旧异步任务。
+  grid.replaceChildren();
+  const uniqueSKUs = [...new Set(skus.map(String))];
+  const fragment = document.createDocumentFragment();
+  for (const sku of uniqueSKUs){
+    const card = document.createElement("div");
+    card.className = "sku-card";
+    const img = document.createElement("img");
+    applyCoverFallback(img,sku);
+    const info = document.createElement("div");
+    info.className = "sku-info";
+    info.textContent = `SKU: ${sku}`;
+    card.append(img, info);
+    card.onclick = () => loadSKUDetail(sku);
+    fragment.appendChild(card);
+  }
+  grid.appendChild(fragment);
 }
-
-
-
-}
-
-
-
-
-
-
 /*
 ===============================
 加载SKU详情
@@ -1328,20 +1146,20 @@ document.getElementById(id)
 
 
 
-const files =
-
-await fetch(
-
-`https://api.github.com/repos/${GITHUB_USER}/${REPO_NAME}/contents/${sku}`
-
-)
-
-.then(r=>r.json());
-
-
-
-
-
+// 直接使用已部署的目录索引，不依赖 GitHub API 授权或仓库名称。
+let files = skuFiles(sku).map(f => ({
+  name:fileName(f),
+  download_url:fileUrl(sku,f)
+}));
+// 若索引缺少文件，再尝试测试仓库的 GitHub API。
+if (!files.length) {
+  try {
+    const r = await fetch(`https://api.github.com/repos/${GITHUB_USER}/${REPO_NAME}/contents/${sku}`);
+    if(r.ok) { const data = await r.json(); if(Array.isArray(data)) files = data; }
+  } catch(e) { console.warn("读取文件列表失败",e); }
+}
+// 即使索引未列出参数页，也优先尝试本地参数页。
+const specCandidate = `${sku}/product-spec.html`;
 let archives="";
 
 let images="";
@@ -1446,7 +1264,7 @@ name.toLowerCase()==="product-spec.html"
 
 console.log("找到参数文件", file.download_url);
 
-spec=`${window.location.origin}/${sku}/${name}`;
+spec=file.download_url || specCandidate;
 
 }
 
@@ -1489,9 +1307,9 @@ document.getElementById("videoSection").style.display="block";
 
 // 输出参数
 
-if(spec){
+if(spec || specCandidate){
 
-document.getElementById("specFrame").src=spec;
+document.getElementById("specFrame").src=spec || specCandidate;
 
 document.getElementById("specSection").style.display="block";
 
@@ -1573,67 +1391,23 @@ SKU搜索
 
 
 function filterSKUs(){
-
-
-const keyword =
-document
-.getElementById("searchInput")
-.value
-.trim()
-.toLowerCase();
-
-
-
-const result = allSKUs.filter(sku=>{
-
-
-const info = catalog[sku] || {};
-
-
-
-return (
-
-sku.toLowerCase().includes(keyword)
-
-||
-
-(info.name || "")
-.toLowerCase()
-.includes(keyword)
-
-
-||
-
-(info.category || "")
-.toLowerCase()
-.includes(keyword)
-
-
-||
-
-(info.keywords || [])
-.join(" ")
-.toLowerCase()
-.includes(keyword)
-
-);
-
-
-});
-
-
-renderSKUList(result);
-
-
+  const keyword = document.getElementById("searchInput").value.trim().toLowerCase();
+  if (!keyword){
+    renderSKUList(allSKUs);
+    return;
+  }
+  const result = allSKUs.filter(sku => {
+    const info = productInfo(sku);
+    const name = info.name.toLowerCase();
+    const category = info.category.toLowerCase();
+    const keywords = info.keywords;
+    return sku.toLowerCase().includes(keyword)
+      || name.includes(keyword)
+      || category.includes(keyword)
+      || keywords.some(word => String(word).toLowerCase().includes(keyword));
+  });
+  renderSKUList(result);
 }
-
-
-
-
-
-
-
-
 /*
 ===============================
 返回首页
@@ -1777,4 +1551,4 @@ init();
 </body>
 
 
-</html>  
+</html>
